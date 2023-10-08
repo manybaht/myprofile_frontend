@@ -93,6 +93,7 @@ async function fetchDiscordStatus() {
 			elements.customStatusEmoji.style.display = "none";
 		} else {
 			elements.customStatusEmoji.src = `https://cdn.discordapp.com/emojis/${userDiscord["activities"][0]?.emoji.id}?format=webp&size=128&quality=lossless`;
+			elements.customStatusEmoji.style.display = "block";
 			elements.customStatusEmoji.style.marginRight = "5px";
 		}
 
