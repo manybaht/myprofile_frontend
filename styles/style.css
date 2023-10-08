@@ -20,20 +20,9 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0.3rem;
-  height: auto;
-  scrollbar-width: thin;
-  /* scrollbar-gutter: unset; */
-  border-radius: 50%;
-}
-
-::-webkit-scrollbar-track {
-  background-color: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #ced2cc;
-  border-radius: 10px;
+  display: none;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
 }
 
 /* Disable drag and drop on all elements */
