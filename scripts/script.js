@@ -87,16 +87,16 @@ async function fetchDiscordStatus() {
 		elements.avatarImage.alt = `Discord avatar: ${userDiscord["user"]["username"]}`;
 
 		elements.customStatusText.innerHTML =
-			userDiscord["activities"][0].state != null ? userDiscord["activities"][0].state : "Probably sleeping...";
+			userDiscord["activities"][0]?.state != null ? userDiscord["activities"][0]?.state : "Probably sleeping...";
 
-		if (userDiscord["activities"][0].emoji == null) {
+		if (userDiscord["activities"][0]?.emoji == null) {
 			elements.customStatusEmoji.style.display = "none";
 		} else {
-			elements.customStatusEmoji.src = `https://cdn.discordapp.com/emojis/${userDiscord["activities"][0].emoji.id}?format=webp&size=24&quality=lossless`;
+			elements.customStatusEmoji.src = `https://cdn.discordapp.com/emojis/${userDiscord["activities"][0]?.emoji.id}?format=webp&size=24&quality=lossless`;
 			elements.customStatusEmoji.style.marginRight = "5px";
 		}
 
-		if (userDiscord["activities"][0].state == null && userDiscord["activities"][0].emoji == null) {
+		if (userDiscord["activities"][0]?.state == null && userDiscord["activities"][0]?.emoji == null) {
 			elements.customStatus.style.display = "none";
 			elements.customStatusEmoji.style.display = "none";
 			elements.customStatusText.style.display = "none";
