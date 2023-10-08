@@ -44,6 +44,18 @@ async function fetchDiscordStatus() {
 			case "offline":
 				imagePath = "./public/status/offline.svg";
 				break;
+			case "online-mobile":
+				imagePath = "./public/status/online-mobile.svg";
+				break;
+			case "idle-mobile":
+				imagePath = "./public/status/idle-mobile.svg";
+				break;
+			case "dnd-mobile":
+				imagePath = "./public/status/dnd-mobile.svg";
+				break;
+			case "offline-mobile":
+				imagePath = "./public/status/offline-mobile.svg";
+				break;
 			default:
 				imagePath = "./public/status/offline.svg";
 				break;
