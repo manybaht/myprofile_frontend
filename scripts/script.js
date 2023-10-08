@@ -92,7 +92,7 @@ async function fetchDiscordStatus() {
 		if (userDiscord["activities"][0]?.emoji == null) {
 			elements.customStatusEmoji.style.display = "none";
 		} else {
-			elements.customStatusEmoji.src = `https://cdn.discordapp.com/emojis/${userDiscord["activities"][0]?.emoji.id}?format=webp&size=24&quality=lossless`;
+			elements.customStatusEmoji.src = `https://cdn.discordapp.com/emojis/${userDiscord["activities"][0]?.emoji.id}?format=webp&size=128&quality=lossless`;
 			elements.customStatusEmoji.style.marginRight = "5px";
 		}
 
