@@ -120,8 +120,8 @@ async function fetchDiscordStatus() {
 		if (userDiscord["activities"]) {
 			const activities = userDiscord["activities"].filter(item => item.type === 0);
 			if (activities.length <= 0) return elements.activityBox.style.display = "none";
+			let check = true;
 			if (activityDiv && activities.length === activityDivData.length) {
-				let check = true;
 				for (let i = 0; i < activities.length; i++) {
 					if (activities[i]?.["timestamps"]?.["start"] !== activityDivData[i]) check = false;
 				}
@@ -144,7 +144,8 @@ async function fetchDiscordStatus() {
 						`
 					}
 				}
-			} else {
+			} else check = false;
+			if (!check) {
 				activityDivData = [];
 				let activitiesBuilder = `
 				<div class="title-body">
