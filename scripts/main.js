@@ -1,5 +1,8 @@
 const discordStatusAPIurl = "https://myspotify.many.win/info/discord";
 const SpotifyStatusAPIurl = "https://myspotify.many.win/info/spotify";
+const SpotifyAddSongAPIurl = "https://myspotify.many.win/music/add";
+let addMusicCooldown = false;
+let addMusicTimeout;
 
 const elements = {
 	statusBox: document.getElementById("status"),
@@ -15,8 +18,11 @@ const elements = {
 	customStatusEmoji: document.getElementById("custom-status-emoji"),
 	spotifyBox: document.getElementById("spotify"),
 	spotifyImg: document.getElementById("spotify-img"),
-	spotifyName: document.getElementById("spotify-song-name")
+	spotifyName: document.getElementById("spotify-song-name"),
+	songInputUrl: document.getElementById("song-input")
 };
+
+document.getElementById("song-submit").addEventListener("click", addSong);
 
 async function fetchDiscordStatus() {
 	try {
@@ -129,6 +135,60 @@ async function fetchDiscordStatus() {
 	} catch (error) {
 		console.error("Unable to retrieve Discord status:", error);
 	}
+}
+
+function addSong(e) {
+	e.preventDefault();
+    e.stopPropagation();
+	if (addMusicCooldown) return;
+	let songUrl = elements.songInputUrl.value;
+	elements.songInputUrl.disabled = true;
+
+	const indexOfSi = songUrl.indexOf("?si=");
+	songUrl = indexOfSi !== -1 ? songUrl.slice(0, indexOfSi) : songUrl;
+	const regex = /\/track\/([^?]+)/;
+	songUrl = songUrl.match(regex);
+	if (songUrl) {
+		songUrl = songUrl[1];
+	} else {
+		return cooldown("Bad Spotify url pattern.");
+	}
+
+	elements.songInputUrl.value = "Sending request...";
+	const reqHeaders = new Headers();
+	reqHeaders.append("Content-Type", "application/json");
+	const reqOpt = {
+		method: 'POST',
+		headers: reqHeaders,
+		body: JSON.stringify({
+			songid: songUrl
+		}),
+	};
+	
+	fetch(SpotifyAddSongAPIurl, reqOpt)
+	.then(response => response.json())
+	.then(result => {
+		if (result["error"]) {
+			elements.songInputUrl.style.color = "red";
+			return cooldown(result["error"]);
+		} else {
+			elements.songInputUrl.style.color = "#90EE90";
+			return cooldown("Song added!");
+		}
+	})
+	.catch(error => {
+		console.log('error', error)
+		return cooldown("Script error.");
+	});
+}
+
+function cooldown(m) {
+	if (m) elements.songInputUrl.value = m;
+	addMusicTimeout = setTimeout(() => {
+		elements.songInputUrl.value = "";
+		elements.songInputUrl.style.color = "";
+		elements.songInputUrl.disabled = false;
+	}, 3000);
 }
 
 // Mapping badges to their respective images
