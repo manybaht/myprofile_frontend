@@ -144,14 +144,18 @@ function addSong(e) {
 	let songUrl = elements.songInputUrl.value;
 	elements.songInputUrl.disabled = true;
 
-	const indexOfSi = songUrl.indexOf("?si=");
-	songUrl = indexOfSi !== -1 ? songUrl.slice(0, indexOfSi) : songUrl;
-	const regex = /\/track\/([^?]+)/;
-	songUrl = songUrl.match(regex);
-	if (songUrl) {
-		songUrl = songUrl[1];
-	} else {
-		return cooldown("Bad Spotify url pattern.");
+	const parser = document.createElement("a");
+	parser.href = songUrl;
+	if (parser.hostname !== "spotify.link") {
+		const indexOfSi = songUrl.indexOf("?si=");
+		songUrl = indexOfSi !== -1 ? songUrl.slice(0, indexOfSi) : songUrl;
+		const regex = /\/track\/([^?]+)/;
+		songUrl = songUrl.match(regex);
+		if (songUrl) {
+			songUrl = songUrl[1];
+		} else {
+			return cooldown("Bad Spotify url pattern.");
+		}
 	}
 
 	elements.songInputUrl.value = "Sending request...";
@@ -190,6 +194,12 @@ function cooldown(m) {
 		elements.songInputUrl.disabled = false;
 	}, 3000);
 }
+
+const randomInputPH = setInterval(() => {
+	if (elements.songInputUrl.placeholder == "https://open.spotify.com/track/42TLIkJ2kFSY0WlCBjqzhB")
+		elements.songInputUrl.placeholder = "https://spotify.link/JJhfeOxJKDb";
+	else elements.songInputUrl.placeholder = "https://open.spotify.com/track/42TLIkJ2kFSY0WlCBjqzhB";
+}, 5000);
 
 // Mapping badges to their respective images
 const badgeMappings = {
