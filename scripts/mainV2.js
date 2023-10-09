@@ -3,6 +3,8 @@ const SpotifyStatusAPIurl = "https://myspotify.many.win/info/spotify";
 const SpotifyAddSongAPIurl = "https://myspotify.many.win/music/add";
 let addMusicCooldown = false;
 let addMusicTimeout;
+let activityDiv;
+let activityDivData = [];
 
 const elements = {
 	statusBox: document.getElementById("status"),
@@ -19,7 +21,8 @@ const elements = {
 	spotifyBox: document.getElementById("spotify"),
 	spotifyImg: document.getElementById("spotify-img"),
 	spotifyName: document.getElementById("spotify-song-name"),
-	songInputUrl: document.getElementById("song-input")
+	songInputUrl: document.getElementById("song-input"),
+	activityBox: document.getElementById("whatamidoing")
 };
 
 document.getElementById("song-submit").addEventListener("click", addSong);
@@ -114,6 +117,78 @@ async function fetchDiscordStatus() {
 			elements.customStatus.style.display = "flex";
 		}
 
+		if (userDiscord["activities"]) {
+			const activities = userDiscord["activities"].filter(item => item.type === 0);
+			if (activities.length <= 0) return elements.activityBox.style.display = "none";
+			if (activityDiv && activities.length === activityDivData.length) {
+				let check = true;
+				for (let i = 0; i < activities.length; i++) {
+					if (activities[i]?.["timestamps"]?.["start"] !== activityDivData[i]) check = false;
+				}
+				if (check) {
+					for (let i = 0; i < activities.length; i++) {
+						const changeImage = document.getElementById("activityImage-" + i);
+						const changeInfo = document.getElementById("activityInfo-" + i);
+						changeImage.src = activities[i]?.["assets"]?.["largeImage"] ? 'https://' + activities[i]?.["assets"]?.["largeImage"].split('/').slice(3).join('/') : 'https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/23.png';
+						changeInfo.innerHTML = `
+							${activities[i]?.["name"] ? activities[i]?.["name"] : '🖥️'}
+							<div class="text-base platform-username-notbold">
+								${activities[i]?.["details"] ? activities[i]?.["details"] : '📝'}
+							</div>
+							<div class="text-base platform-username-notbold">
+								${activities[i]?.["state"] ? activities[i]?.["state"] : '👨‍💻'}
+							</div>
+							<div class="text-base platform-username-notbold">
+								${activities[i]?.["timestamps"]?.["start"] ? parseTime(activities[i]?.["timestamps"]?.["start"]) + ' elapsed' : '⏰'}
+							</div>
+						`
+					}
+				}
+				return;
+			} else activityDivData = [];
+			let activitiesBuilder = `
+			<div class="title-body">
+				<img
+				class="platform-icon-spotify-inside"
+				alt=" "
+				aria-hidden="true"
+				src="./public/icons/discord.svg" />
+				&nbsp;MY ACTIVITES
+			</div>
+			`;
+			for (let i = 0; i < activities.length; i++) {
+				let timeElapsed;
+				if (activities[i]?.["timestamps"]?.["start"]) activityDivData.push(activities[i]?.["timestamps"]?.["start"]);
+				activitiesBuilder += `
+				<div class="platform-spotify">
+					<img
+						id="activityImage-${i}"
+						class="platform-icon-spotify"
+						alt=" "
+						aria-hidden="true"
+						src="${activities[i]?.["assets"]?.["largeImage"] ? 'https://' + activities[i]?.["assets"]?.["largeImage"].split('/').slice(3).join('/') : 'https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/23.png'}" />
+					<div id="activityInfo-${i}" class="text-base platform-username">
+						${activities[i]?.["name"] ? activities[i]?.["name"] : '🖥️'}
+						<div class="text-base platform-username-notbold">
+							${activities[i]?.["details"] ? activities[i]?.["details"] : '📝'}
+						</div>
+						<div class="text-base platform-username-notbold">
+							${activities[i]?.["state"] ? activities[i]?.["state"] : '👨‍💻'}
+						</div>
+						<div class="text-base platform-username-notbold">
+							${activities[i]?.["timestamps"]?.["start"] ? parseTime(activities[i]?.["timestamps"]?.["start"]) + ' elapsed' : '⏰'}
+						</div>
+					</div>
+				</div>
+				`
+			}
+			elements.activityBox.innerHTML = "";
+			activityDiv = document.createElement('activityDiv');
+			activityDiv.innerHTML= activitiesBuilder;
+			elements.activityBox.appendChild(activityDiv);
+			elements.activityBox.style.display = "block";
+		} else elements.activityBox.style.display = "none";
+
 		const ms = userSpotify["progress_ms"];
 		const msTotal = userSpotify["item"]?.["duration_ms"];
 
@@ -193,6 +268,16 @@ function cooldown(m) {
 		elements.songInputUrl.style.color = "";
 		elements.songInputUrl.disabled = false;
 	}, 3000);
+}
+
+function parseTime(time) {
+	const targetDateTime = new Date(time);
+	const currentTime = new Date();
+	const elapsedTM = currentTime - targetDateTime;
+	const seconds = Math.floor(elapsedTM / 1000) % 60;
+	const minutes = Math.floor(elapsedTM / 1000 / 60) % 60;
+	const hours = Math.floor(elapsedTM / 1000 / 3600);
+	return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 }
 
 const randomInputPH = setInterval(() => {
