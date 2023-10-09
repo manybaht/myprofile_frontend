@@ -110,9 +110,6 @@ async function fetchDiscordStatus() {
 			elements.customStatus.style.display = "none";
 			elements.customStatusEmoji.style.display = "none";
 			elements.customStatusText.style.display = "none";
-			elements.customStatus.removeAttribute("style");
-			elements.customStatusEmoji.removeAttribute("style");
-			elements.customStatusText.removeAttribute("style");
 		} else {
 			elements.customStatus.style.display = "flex";
 		}

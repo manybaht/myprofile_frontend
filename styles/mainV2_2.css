@@ -551,6 +551,7 @@ body {
 
 .message-input:disabled {
   color: orange;
+  opacity: 1.0;
 }
 
 @media (width <=640px) {
