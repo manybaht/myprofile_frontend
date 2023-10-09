@@ -97,11 +97,11 @@ async function fetchDiscordStatus() {
 
 		if (userDiscord["activities"][0]?.name == "Spotify") {
 			elements.customStatusText.innerHTML = "Listening to Spotify";
-			elements.customStatusEmoji.style.display = "flex";
+			elements.customStatusText.style.display = "flex";
 		} else if (userDiscord["activities"][0]?.state) {
 			elements.customStatusText.innerHTML = userDiscord["activities"][0]?.state;
-			elements.customStatusEmoji.style.display = "flex";
-		} else elements.customStatusEmoji.style.display = "none";
+			elements.customStatusText.style.display = "flex";
+		} else elements.customStatusText.style.display = "none";
 
 		if (userDiscord["activities"][0]?.emoji == null) {
 			elements.customStatusEmoji.style.display = "none";
