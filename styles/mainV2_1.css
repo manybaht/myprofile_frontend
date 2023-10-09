@@ -498,8 +498,28 @@ body {
   color: #e42d58;
 }
 
+.redbright {
+  color: #F70938;
+}
+
+.orangelow {
+  color: #E69441;
+}
+
+.greenbright {
+  color: #6AE854;
+}
+
 .pink {
   color: #f178a0;
+}
+
+.blue {
+  color: #3CA9F2;
+}
+
+.purple {
+  color: #7D4698;
 }
 
 .chat-container {
