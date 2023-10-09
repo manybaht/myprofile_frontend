@@ -95,8 +95,13 @@ async function fetchDiscordStatus() {
 		elements.avatarImage.src = `https://cdn.discordapp.com/avatars/${userDiscord["user"]["id"]}/${userDiscord["user"]["avatar"]}?format=webp&size=1024`;
 		elements.avatarImage.alt = `Discord avatar: ${userDiscord["user"]["username"]}`;
 
-		if (userDiscord["activities"][0]?.name == "Spotify") elements.customStatusText.innerHTML = "Listening to Spotify"
-		else elements.customStatusText.innerHTML = userDiscord["activities"][0]?.state != null ? userDiscord["activities"][0]?.state : "Probably sleeping...";
+		if (userDiscord["activities"][0]?.name == "Spotify") {
+			elements.customStatusText.innerHTML = "Listening to Spotify";
+			elements.customStatusEmoji.style.display = "flex";
+		} else if (userDiscord["activities"][0]?.state) {
+			elements.customStatusText.innerHTML = userDiscord["activities"][0]?.state;
+			elements.customStatusEmoji.style.display = "flex";
+		} else elements.customStatusEmoji.style.display = "none";
 
 		if (userDiscord["activities"][0]?.emoji == null) {
 			elements.customStatusEmoji.style.display = "none";
