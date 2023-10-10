@@ -470,6 +470,11 @@ body {
   height: 100px;
 }
 
+.platform-icon-vrc {
+  width: 130px;
+  height: 100px;
+}
+
 .platform-icon-spotify-inside {
   width: 20px;
   height: 20px;
@@ -647,6 +652,11 @@ body {
 
   .platform-icon-spotify {
     width: 75px;
+    height: 75px;
+  }
+
+  .platform-icon-vrc {
+    width: 95px;
     height: 75px;
   }
 }
