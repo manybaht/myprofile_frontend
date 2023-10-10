@@ -85,14 +85,14 @@ async function fetchDiscordStatus() {
 			elements.bannerImage.src =
 				"https://manybahtpage.com/images/laiok.webp";
 		} else {
-			elements.bannerImage.src = `https://cdn.discordapp.com/banners/${userDiscord["user"]["id"]}/${userDiscord["user"]["banner"]}?format=webp&size=1024`;
+			elements.bannerImage.src = `https://cdn.discordapp.com/banners/${userDiscord["user"]["id"]}/${userDiscord["user"]["banner"]}?format=webp&size=512`;
 			elements.bannerImage.alt = `Discord banner: ${userDiscord["user"]["username"]}`;
 		}
 
 		elements.statusImage.src = imagePath;
 		elements.statusImage.alt = `Discord status: ${userDiscord["presence"]}`;
 		elements.bannerColor.style.backgroundColor = userDiscord["user"]["hexAccentColor"];
-		elements.avatarImage.src = `https://cdn.discordapp.com/avatars/${userDiscord["user"]["id"]}/${userDiscord["user"]["avatar"]}?format=webp&size=1024`;
+		elements.avatarImage.src = `https://cdn.discordapp.com/avatars/${userDiscord["user"]["id"]}/${userDiscord["user"]["avatar"]}?format=webp&size=512`;
 		elements.avatarImage.alt = `Discord avatar: ${userDiscord["user"]["username"]}`;
 
 		if (userDiscord["activities"][0]?.name == "Spotify") {
