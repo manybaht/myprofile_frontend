@@ -267,10 +267,12 @@ function addSong(e) {
 
 function cooldown(m) {
 	if (m) elements.songInputUrl.value = m;
+	addMusicCooldown = true;
 	addMusicTimeout = setTimeout(() => {
 		elements.songInputUrl.value = "";
 		elements.songInputUrl.style.color = "";
 		elements.songInputUrl.disabled = false;
+		addMusicCooldown = false;
 	}, 3000);
 }
 
