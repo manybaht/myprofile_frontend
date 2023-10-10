@@ -1,7 +1,7 @@
-@import url(https://cdn.jsdelivr.net/gh/Overimagine1/old-discord-font/source.min.css);
+@import url(https://cdn.jsdelivr.net/gh/manybaht/gg-san-2@3e7a9fa/gg-sans-2.css);
 
 * {
-  font-family: "Whitney", sans-serif;
+  font-family: "gg sans", sans-serif;
   transition: width 0.5s ease, height 0.5s ease;
 }
 
@@ -443,7 +443,7 @@ body {
 
 .platform-username {
   color: var(--text-color);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   margin-left: 10px;
   -webkit-box-flex: 1;
@@ -452,7 +452,8 @@ body {
 }
 
 .platform-username-notbold {
-  font-weight: 500;
+  font-size: 16px;
+  font-weight: 400;
 }
 
 .platform-icon {
@@ -613,6 +614,10 @@ body {
   }
 
   .platform-username {
+    font-size: 14px;
+  }
+
+  .platform-username-notbold {
     font-size: 12px;
   }
 
