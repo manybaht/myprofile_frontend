@@ -58,11 +58,13 @@ async function fetchDiscordStatus() {
 			if (!userVRC["worldId"]) {
 				elements.vrcLink.value = "In Private World / Invite Link Disabled";
 				elements.vrcLink.style.color = "red";
-				elements.vrcJoin.href = "#";
+				elements.vrcJoin.href = "/";
+				elements.vrcJoin.target = "";
 			} else {
 				elements.vrcLink.value = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
 				elements.vrcLink.style.color = "";
 				elements.vrcJoin.href = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
+				elements.vrcJoin.target = "_blank";
 			}
 			elements.vrcBox.style.display = "block";
 		} else elements.vrcBox.style.display = "none";
