@@ -1,6 +1,7 @@
 const discordStatusAPIurl = "https://myspotify.many.win/info/discord";
 const SpotifyStatusAPIurl = "https://myspotify.many.win/info/spotify";
 const SpotifyAddSongAPIurl = "https://myspotify.many.win/music/add";
+const VRCStatusAPIurl = "https://myvrc.many.win/vrc/info";
 let addMusicCooldown = false;
 let addMusicTimeout;
 let activityDiv;
@@ -22,7 +23,12 @@ const elements = {
 	spotifyImg: document.getElementById("spotify-img"),
 	spotifyName: document.getElementById("spotify-song-name"),
 	songInputUrl: document.getElementById("song-input"),
-	activityBox: document.getElementById("whatamidoing")
+	activityBox: document.getElementById("whatamidoing"),
+	vrcBox: document.getElementById("vrchat"),
+	vrcImg: document.getElementById("vrc-img"),
+	vrcDetail: document.getElementById("vrc-detail"),
+	vrcLink: document.getElementById("vrc-link"),
+	vrcJoin: document.getElementById("vrc-join"),
 };
 
 document.getElementById("song-submit").addEventListener("click", addSong);
@@ -31,10 +37,35 @@ async function fetchDiscordStatus() {
 	try {
 		const userDiscord = await fetch(discordStatusAPIurl).then((response) => {
 			return response.json();
-		});
+		}).catch((err) => {});
 		const userSpotify = await fetch(SpotifyStatusAPIurl).then((response) => {
 			return response.json();
-		});
+		}).catch((err) => {});
+		const userVRC = await fetch(VRCStatusAPIurl).then((response) => {
+			return response.json();
+		}).catch((err) => {});
+
+		if (userVRC["online"]) {
+			elements.vrcImg.src = userVRC["currentAvatarImageUrl"] ? userVRC["currentAvatarImageUrl"] : 'https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/23.png';
+			elements.vrcDetail.innerHTML =  `${userVRC["displayName"] ?? "-"}
+			<div class="text-base platform-username-notbold">
+				${userVRC["status"] ?? "Offline"}
+			</div>
+			<div class="text-base platform-username-notbold">
+				${userVRC["worldId"] ? "In VRC world" : "In Private World"}
+			</div>
+			`
+			if (!userVRC["worldId"]) {
+				elements.vrcLink.value = "In Private World / Invite Link Disabled";
+				elements.vrcLink.style.color = "red";
+				elements.vrcJoin.href = "#";
+			} else {
+				elements.vrcLink.value = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
+				elements.vrcLink.style.color = "";
+				elements.vrcJoin.href = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
+			}
+			elements.vrcBox.style.display = "block";
+		} else elements.vrcBox.style.display = "none";
 
 		elements.displayName.innerHTML = userDiscord["user"]["globalName"];
 		elements.username.innerHTML = '@' + userDiscord["user"]["username"];

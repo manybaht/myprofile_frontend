@@ -415,6 +415,10 @@ body {
   display: none;
 }
 
+.vrchat {
+  display: none;
+}
+
 .platform {
   width: 225px;
   display: -webkit-box;
@@ -539,6 +543,22 @@ body {
   align-items: center;
 }
 
+.chat-container-vrc {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 494px;
+  max-width: 514px;
+  margin-top: 0px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 0 1px #c1c5be;
+  padding: 10px 10px 10px 10px;
+  border-radius: 5px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
 .message-input {
   background-color: transparent;
   width: 95%;
@@ -552,6 +572,10 @@ body {
 
 .message-input:disabled {
   color: orange;
+  opacity: 1.0;
+}
+
+.message-input:read-only {
   opacity: 1.0;
 }
 
