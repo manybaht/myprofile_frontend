@@ -1,7 +1,7 @@
-const discordStatusAPIurl = "https://myspotify.many.win/info/discord";
-const SpotifyStatusAPIurl = "https://myspotify.many.win/info/spotify";
+const discordStatusAPIurl = window.location.pathname.length > 5 ? "https://sgapi.many.win/info/discord" : "https://myspotify.many.win/info/discord";
+const SpotifyStatusAPIurl = window.location.pathname.length > 5 ? "https://sgapi.many.win/info/spotify" : "https://myspotify.many.win/info/spotify";
 const SpotifyAddSongAPIurl = "https://myspotify.many.win/music/add";
-const VRCStatusAPIurl = "https://myvrc.many.win/vrc/info";
+const VRCStatusAPIurl = window.location.pathname.length > 5 ? "https://sgapi.many.win/vrc/info" : "https://myvrc.many.win/vrc/info";
 let addMusicCooldown = false;
 let addMusicTimeout;
 let activityDiv;
