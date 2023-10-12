@@ -35,39 +35,7 @@ document.getElementById("song-submit").addEventListener("click", addSong);
 
 async function fetchDiscordStatus() {
 	try {
-		const userDiscord = await fetch(discordStatusAPIurl).then((response) => {
-			return response.json();
-		}).catch((err) => {});
-		const userSpotify = await fetch(SpotifyStatusAPIurl).then((response) => {
-			return response.json();
-		}).catch((err) => {});
-		const userVRC = await fetch(VRCStatusAPIurl).then((response) => {
-			return response.json();
-		}).catch((err) => {});
-
-		if (userVRC["online"]) {
-			elements.vrcImg.src = userVRC["currentAvatarImageUrl"] ? userVRC["currentAvatarImageUrl"] : 'https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/23.png';
-			elements.vrcDetail.innerHTML =  `${userVRC["displayName"] ?? "-"}
-			<div class="text-base platform-username-notbold">
-				${userVRC["status"] ?? "Offline"}
-			</div>
-			<div class="text-base platform-username-notbold">
-				${userVRC["worldId"] ? "In VRC world" : "In Private World"}
-			</div>
-			`
-			if (!userVRC["worldId"]) {
-				elements.vrcLink.value = "In Private World / Invite Link Disabled";
-				elements.vrcLink.style.color = "red";
-				elements.vrcJoin.href = "/";
-				elements.vrcJoin.target = "";
-			} else {
-				elements.vrcLink.value = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
-				elements.vrcLink.style.color = "";
-				elements.vrcJoin.href = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
-				elements.vrcJoin.target = "_blank";
-			}
-			elements.vrcBox.style.display = "block";
-		} else elements.vrcBox.style.display = "none";
+		const userDiscord = await fetch(discordStatusAPIurl).then((response) => { return response.json(); });
 
 		elements.displayName.innerHTML = userDiscord["user"]["globalName"];
 		elements.username.innerHTML = '@' + userDiscord["user"]["username"];
@@ -227,6 +195,13 @@ async function fetchDiscordStatus() {
 			} else elements.activityBox.style.display = "none";
 		} else elements.activityBox.style.display = "none";
 
+	} catch (error) {
+		console.error("Unable to retrieve Discord status:", error);
+	}
+
+	try {
+		const userSpotify = await fetch(SpotifyStatusAPIurl).then((response) => { return response.json(); });
+
 		const ms = userSpotify["progress_ms"];
 		const msTotal = userSpotify["item"]?.["duration_ms"];
 
@@ -245,8 +220,40 @@ async function fetchDiscordStatus() {
 			`
 			elements.spotifyBox.style.display = "block";
 		} else elements.spotifyBox.style.display = "none";
+		
 	} catch (error) {
-		console.error("Unable to retrieve Discord status:", error);
+		console.error("Unable to retrieve Spotify status:", error);
+	}
+
+	try {
+		const userVRC = await fetch(VRCStatusAPIurl).then((response) => { return response.json(); });
+
+		if (userVRC["online"]) {
+			elements.vrcImg.src = userVRC["currentAvatarImageUrl"] ? userVRC["currentAvatarImageUrl"] : 'https://cdn.jsdelivr.net/gh/manybaht/manybaht.github.io@main/storages/images/laibaht_arts/23.png';
+			elements.vrcDetail.innerHTML =  `${userVRC["displayName"] ?? "-"}
+			<div class="text-base platform-username-notbold">
+				${userVRC["status"] ?? "Offline"}
+			</div>
+			<div class="text-base platform-username-notbold">
+				${userVRC["worldId"] ? "In VRC world" : "In Private World"}
+			</div>
+			`
+			if (!userVRC["worldId"]) {
+				elements.vrcLink.value = "In Private World / Invite Link Disabled";
+				elements.vrcLink.style.color = "red";
+				elements.vrcJoin.href = "/";
+				elements.vrcJoin.target = "";
+			} else {
+				elements.vrcLink.value = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
+				elements.vrcLink.style.color = "";
+				elements.vrcJoin.href = `https://vrchat.com/home/launch?worldId=${userVRC["worldId"]}&instanceId=${userVRC["instanceId"]}`;
+				elements.vrcJoin.target = "_blank";
+			}
+			elements.vrcBox.style.display = "block";
+		} else elements.vrcBox.style.display = "none";
+
+	} catch (error) {
+		console.error("Unable to retrieve VRC status:", error);
 	}
 }
 
